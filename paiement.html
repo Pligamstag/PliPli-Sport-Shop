@@ -421,16 +421,13 @@
         const orderTotalContainer = document.getElementById('orderTotal');
         const payButton = document.getElementById('payButton');
 
-        // 1. Récupérer le panier depuis le localStorage
         const savedCart = localStorage.getItem('cart');
         if (savedCart) {
             cartData.items = JSON.parse(savedCart);
         } else {
-            // Si le panier est vide dans le localStorage
             cartData.items = [];
         }
 
-        // Si le panier est vide, affiche un message
         if (cartData.items.length === 0) {
             orderItemsContainer.innerHTML = '<p>Votre panier est vide.</p>';
             payButton.textContent = 'Panier vide';
@@ -439,17 +436,14 @@
             return;
         }
 
-        // 2. Calculer le sous-total, la TVA et le total
         cartData.subtotal = cartData.items.reduce((sum, item) => sum + item.price, 0);
         cartData.tax = cartData.subtotal * cartData.taxRate;
         cartData.total = cartData.subtotal + cartData.tax;
 
-        // 3. Afficher les articles du panier dans le récapitulatif
         orderItemsContainer.innerHTML = '';
         cartData.items.forEach(item => {
             const itemElement = document.createElement('div');
             itemElement.className = 'order-item';
-            // Utiliser les noms et prix du panier sauvegardé
             itemElement.innerHTML = `
                 <div class="item-info">
                     <h3>${item.name}</h3>
@@ -459,7 +453,6 @@
             orderItemsContainer.appendChild(itemElement);
         });
 
-        // 4. Afficher le total et les détails dans le récapitulatif
         orderTotalContainer.innerHTML = `
             <div class="total-row">
                 <span>Sous-total :</span>
@@ -479,22 +472,18 @@
             </div>
         `;
 
-        // 5. Mettre à jour le bouton de paiement avec le total
         payButton.textContent = `Payer maintenant - ${cartData.total.toFixed(2)} €`;
         payButton.disabled = false;
     }
 
     // Fonction pour gérer le changement de méthode de paiement
     function changePaymentMethod(method) {
-        // Enlever la classe 'active' de toutes les options
         document.querySelectorAll('.payment-method').forEach(item => {
             item.classList.remove('active');
         });
 
-        // Ajouter la classe 'active' à l'option cliquée
         document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('active');
 
-        // Afficher ou cacher les détails de la carte en fonction de la méthode
         const cardDetails = document.getElementById('cardDetails');
         if (method === 'card') {
             cardDetails.style.display = 'block';
@@ -502,7 +491,7 @@
             cardDetails.style.display = 'none';
         }
     }
-    
+
     // Ajout d'écouteurs d'événements aux options de paiement
     document.querySelectorAll('.payment-method').forEach(methodDiv => {
         methodDiv.addEventListener('click', () => {
@@ -514,21 +503,40 @@
     // Gestion de la soumission du formulaire
     document.getElementById('paymentForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        const button = document.querySelector('.pay-button');
+
+        const payButton = document.querySelector('.pay-button');
         const loading = document.querySelector('.loading');
         const success = document.querySelector('.success-message');
-        
-        button.style.display = 'none';
+        const selectedMethod = document.querySelector('.payment-method.active').getAttribute('data-method');
+
+        payButton.style.display = 'none';
         loading.style.display = 'block';
-        
+
+        // --- DÉBUT DE LA LOGIQUE DE PAIEMENT SÉPARÉE ---
+        if (selectedMethod === 'card') {
+            console.log("Paiement par carte en cours...");
+            // Dans un vrai site, ici tu aurais une intégration de l'API Stripe
+            // ou d'un autre service de paiement par carte.
+        } else if (selectedMethod === 'paypal') {
+            const clientId = 'ASz4KkXyvIHtXdydWVz9xiRrZCyr4izsQKxiPTFoMFP9TwHmSKPQUUqHZaXX803cO6b3ab060zZIGBbU';
+            console.log(`Paiement via PayPal en cours... (Utilisation du Client ID : ${clientId})`);
+            // Pour une vraie intégration, tu aurais besoin d'une balise <script>
+            // de l'API PayPal et d'appeler ses fonctions ici.
+        } else if (selectedMethod === 'apple' || selectedMethod === 'google') {
+            console.log(`Paiement via ${selectedMethod} Pay en cours...`);
+            // Même chose pour Apple Pay et Google Pay, il faudrait appeler leurs API.
+        }
+        // --- FIN DE LA LOGIQUE DE PAIEMENT SÉPARÉE ---
+
+        // Simulation de la réponse après 2 secondes (valable pour toutes les méthodes)
         setTimeout(() => {
             loading.style.display = 'none';
             success.style.display = 'block';
-            
+            console.log("Paiement simulé réussi !");
+
             // IMPORTANT : Vider le panier après le paiement pour éviter la réutilisation
             localStorage.removeItem('cart');
-            
+
             // Rediriger vers la page d'accueil ou de confirmation après un délai
             setTimeout(() => {
                 window.location.href = "index.html"; 
@@ -538,7 +546,6 @@
 
     // Appeler la fonction de mise à jour au chargement de la page
     window.addEventListener('load', function() {
-        // ... tes animations d'entrée existantes
         document.querySelector('.payment-form').style.opacity = '0';
         document.querySelector('.order-summary').style.opacity = '0';
         document.querySelector('.payment-form').style.transform = 'translateY(30px)';
@@ -552,7 +559,6 @@
             document.querySelector('.payment-form').style.transform = 'translateY(0)';
             document.querySelector('.order-summary').style.transform = 'translateY(0)';
             
-            // On appelle la fonction de mise à jour ici pour afficher le récapitulatif
             updateOrderSummary();
         }, 100);
     });
