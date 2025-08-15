@@ -484,6 +484,33 @@
         payButton.disabled = false;
     }
 
+    // Fonction pour gérer le changement de méthode de paiement
+    function changePaymentMethod(method) {
+        // Enlever la classe 'active' de toutes les options
+        document.querySelectorAll('.payment-method').forEach(item => {
+            item.classList.remove('active');
+        });
+
+        // Ajouter la classe 'active' à l'option cliquée
+        document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('active');
+
+        // Afficher ou cacher les détails de la carte en fonction de la méthode
+        const cardDetails = document.getElementById('cardDetails');
+        if (method === 'card') {
+            cardDetails.style.display = 'block';
+        } else {
+            cardDetails.style.display = 'none';
+        }
+    }
+    
+    // Ajout d'écouteurs d'événements aux options de paiement
+    document.querySelectorAll('.payment-method').forEach(methodDiv => {
+        methodDiv.addEventListener('click', () => {
+            const method = methodDiv.getAttribute('data-method');
+            changePaymentMethod(method);
+        });
+    });
+
     // Gestion de la soumission du formulaire
     document.getElementById('paymentForm').addEventListener('submit', function(e) {
         e.preventDefault();
