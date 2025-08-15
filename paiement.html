@@ -13,9 +13,10 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #1a1a1a;
             min-height: 100vh;
             padding: 20px;
+            color: #fff;
         }
 
         .container {
@@ -35,35 +36,33 @@
         }
 
         .payment-form {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
+            background: #2d2d2d;
             border-radius: 20px;
             padding: 40px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid #404040;
         }
 
         .order-summary {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(20px);
+            background: #2d2d2d;
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid #404040;
             height: fit-content;
             position: sticky;
             top: 20px;
         }
 
         h1 {
-            color: #2d3748;
+            color: #ff6b35;
             margin-bottom: 30px;
             font-size: 2em;
             text-align: center;
         }
 
         h2 {
-            color: #2d3748;
+            color: #fff;
             margin-bottom: 20px;
             font-size: 1.5em;
         }
@@ -75,24 +74,29 @@
         label {
             display: block;
             margin-bottom: 8px;
-            color: #4a5568;
+            color: #ccc;
             font-weight: 500;
         }
 
         input, select {
             width: 100%;
             padding: 15px;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #404040;
             border-radius: 10px;
             font-size: 16px;
             transition: all 0.3s ease;
-            background: white;
+            background: #1a1a1a;
+            color: #fff;
         }
 
         input:focus, select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        input::placeholder {
+            color: #666;
         }
 
         .form-row {
@@ -110,22 +114,23 @@
 
         .payment-method {
             padding: 15px;
-            border: 2px solid #e2e8f0;
+            border: 2px solid #404040;
             border-radius: 10px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: white;
+            background: #1a1a1a;
+            color: #ccc;
         }
 
         .payment-method:hover {
-            border-color: #667eea;
-            background: #f7fafc;
+            border-color: #ff6b35;
+            background: #2d2d2d;
         }
 
         .payment-method.active {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: #ff6b35;
+            background: #ff6b35;
             color: white;
         }
 
@@ -136,8 +141,8 @@
         }
 
         .security-info {
-            background: #f0fff4;
-            border: 1px solid #68d391;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid #ff6b35;
             border-radius: 10px;
             padding: 15px;
             margin-bottom: 25px;
@@ -147,7 +152,7 @@
         }
 
         .security-icon {
-            color: #38a169;
+            color: #ff6b35;
             font-size: 20px;
         }
 
@@ -156,7 +161,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 0;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #404040;
         }
 
         .order-item:last-child {
@@ -164,22 +169,22 @@
         }
 
         .item-info h3 {
-            color: #2d3748;
+            color: #fff;
             margin-bottom: 5px;
         }
 
         .item-info p {
-            color: #718096;
+            color: #ccc;
             font-size: 14px;
         }
 
         .item-price {
             font-weight: 600;
-            color: #2d3748;
+            color: #ff6b35;
         }
 
         .total {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ff6b35;
             color: white;
             padding: 20px;
             border-radius: 15px;
@@ -202,7 +207,7 @@
 
         .pay-button {
             width: 100%;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #ff6b35;
             color: white;
             border: none;
             padding: 18px;
@@ -215,12 +220,20 @@
         }
 
         .pay-button:hover {
+            background: #e55a2e;
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 25px rgba(255, 107, 53, 0.3);
         }
 
         .pay-button:active {
             transform: translateY(0);
+        }
+
+        .pay-button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         .trust-indicators {
@@ -238,8 +251,8 @@
         }
 
         .spinner {
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            border: 3px solid #404040;
+            border-top: 3px solid #ff6b35;
             border-radius: 50%;
             width: 30px;
             height: 30px;
@@ -254,9 +267,9 @@
 
         .success-message {
             display: none;
-            background: #f0fff4;
-            border: 2px solid #68d391;
-            color: #38a169;
+            background: rgba(255, 107, 53, 0.1);
+            border: 2px solid #ff6b35;
+            color: #ff6b35;
             padding: 20px;
             border-radius: 15px;
             text-align: center;
@@ -385,210 +398,137 @@
                 <!-- Le total sera calculé dynamiquement -->
             </div>
 
-            <div style="margin-top: 20px; font-size: 12px; color: #718096; text-align: center;">
+            <div style="margin-top: 20px; font-size: 12px; color: #ccc; text-align: center;">
                 <p>🔒 Paiement 100% sécurisé</p>
                 <p>Politique de remboursement 30 jours</p>
             </div>
         </div>
     </div>
 
-    <script>
-        // Système de gestion du panier - peut être alimenté par votre backend
-        let cartData = {
-            items: [],
-            subtotal: 0,
-            tax: 0,
-            total: 0,
-            taxRate: 0.20 // 20% TVA
-        };
+<script>
+    // Objet pour stocker les données du panier et les totaux
+    let cartData = {
+        items: [],
+        subtotal: 0,
+        tax: 0,
+        total: 0,
+        taxRate: 0.20 // 20% TVA
+    };
 
-        // Fonction pour ajouter un article au panier
-        function addToCart(item) {
-            cartData.items.push(item);
-            updateOrderSummary();
+    // Fonction pour mettre à jour le récapitulatif
+    function updateOrderSummary() {
+        const orderItemsContainer = document.getElementById('orderItems');
+        const orderTotalContainer = document.getElementById('orderTotal');
+        const payButton = document.getElementById('payButton');
+
+        // 1. Récupérer le panier depuis le localStorage
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+            cartData.items = JSON.parse(savedCart);
+        } else {
+            // Si le panier est vide dans le localStorage
+            cartData.items = [];
         }
 
-        // Fonction pour mettre à jour le récapitulatif
-        function updateOrderSummary() {
-            const orderItemsContainer = document.getElementById('orderItems');
-            const orderTotalContainer = document.getElementById('orderTotal');
-            const payButton = document.getElementById('payButton');
+        // Si le panier est vide, affiche un message
+        if (cartData.items.length === 0) {
+            orderItemsContainer.innerHTML = '<p>Votre panier est vide.</p>';
+            payButton.textContent = 'Panier vide';
+            payButton.disabled = true;
+            orderTotalContainer.innerHTML = '';
+            return;
+        }
 
-            // Calculer le sous-total
-            cartData.subtotal = cartData.items.reduce((sum, item) => sum + item.price, 0);
-            cartData.tax = cartData.subtotal * cartData.taxRate;
-            cartData.total = cartData.subtotal + cartData.tax;
+        // 2. Calculer le sous-total, la TVA et le total
+        cartData.subtotal = cartData.items.reduce((sum, item) => sum + item.price, 0);
+        cartData.tax = cartData.subtotal * cartData.taxRate;
+        cartData.total = cartData.subtotal + cartData.tax;
 
-            // Afficher les articles
-            orderItemsContainer.innerHTML = '';
-            cartData.items.forEach(item => {
-                const itemElement = document.createElement('div');
-                itemElement.className = 'order-item';
-                itemElement.innerHTML = `
-                    <div class="item-info">
-                        <h3>${item.name}</h3>
-                        <p>${item.description}</p>
-                    </div>
-                    <div class="item-price">${item.price.toFixed(2)} €</div>
-                `;
-                orderItemsContainer.appendChild(itemElement);
-            });
-
-            // Afficher le total
-            orderTotalContainer.innerHTML = `
-                <div class="total-row">
-                    <span>Sous-total :</span>
-                    <span>${cartData.subtotal.toFixed(2)} €</span>
+        // 3. Afficher les articles du panier dans le récapitulatif
+        orderItemsContainer.innerHTML = '';
+        cartData.items.forEach(item => {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'order-item';
+            // Utiliser les noms et prix du panier sauvegardé
+            itemElement.innerHTML = `
+                <div class="item-info">
+                    <h3>${item.name}</h3>
                 </div>
-                <div class="total-row">
-                    <span>TVA (${(cartData.taxRate * 100)}%) :</span>
-                    <span>${cartData.tax.toFixed(2)} €</span>
-                </div>
-                <div class="total-row">
-                    <span>Frais de traitement :</span>
-                    <span>Gratuit</span>
-                </div>
-                <div class="total-row final">
-                    <span>Total :</span>
-                    <span>${cartData.total.toFixed(2)} €</span>
-                </div>
+                <div class="item-price">${item.price.toFixed(2)} €</div>
             `;
-
-            // Mettre à jour le bouton de paiement
-            if (cartData.total > 0) {
-                payButton.textContent = `Payer maintenant - ${cartData.total.toFixed(2)} €`;
-                payButton.disabled = false;
-            } else {
-                payButton.textContent = 'Panier vide';
-                payButton.disabled = true;
-            }
-        }
-
-        // Fonction pour charger les données du panier (à connecter à votre système)
-        function loadCartFromSystem() {
-            // Exemple d'articles - remplacez par vos vraies données
-            const exampleItems = [
-                { name: 'Produit Premium', description: 'Licence 1 an', price: 59.99 },
-                { name: 'Extension Pro', description: 'Fonctionnalités avancées', price: 19.99 },
-                { name: 'Support prioritaire', description: 'Assistance 24/7', price: 9.99 }
-            ];
-
-            // Simuler le chargement depuis votre backend
-            // Dans votre vraie application, remplacez par un appel API
-            exampleItems.forEach(item => addToCart(item));
-        }
-
-        // API pour connecter à votre système
-        window.PaymentSystem = {
-            // Ajouter un article
-            addItem: function(name, description, price) {
-                addToCart({ name, description, price });
-            },
-            
-            // Supprimer un article
-            removeItem: function(index) {
-                cartData.items.splice(index, 1);
-                updateOrderSummary();
-            },
-            
-            // Vider le panier
-            clearCart: function() {
-                cartData.items = [];
-                updateOrderSummary();
-            },
-            
-            // Définir le taux de TVA
-            setTaxRate: function(rate) {
-                cartData.taxRate = rate;
-                updateOrderSummary();
-            },
-            
-            // Obtenir les données du panier
-            getCartData: function() {
-                return cartData;
-            }
-        };
-
-        // Gestion des méthodes de paiement
-        document.querySelectorAll('.payment-method').forEach(method => {
-            method.addEventListener('click', function() {
-                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
-                this.classList.add('active');
-                
-                const cardDetails = document.getElementById('cardDetails');
-                if (this.dataset.method === 'card') {
-                    cardDetails.style.display = 'block';
-                } else {
-                    cardDetails.style.display = 'none';
-                }
-            });
+            orderItemsContainer.appendChild(itemElement);
         });
 
-        // Formatage du numéro de carte
-        document.getElementById('cardNumber').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\s/g, '');
-            let formattedValue = value.replace(/(.{4})/g, '$1 ').trim();
-            e.target.value = formattedValue;
-        });
+        // 4. Afficher le total et les détails dans le récapitulatif
+        orderTotalContainer.innerHTML = `
+            <div class="total-row">
+                <span>Sous-total :</span>
+                <span>${cartData.subtotal.toFixed(2)} €</span>
+            </div>
+            <div class="total-row">
+                <span>TVA (${(cartData.taxRate * 100)}%) :</span>
+                <span>${cartData.tax.toFixed(2)} €</span>
+            </div>
+            <div class="total-row">
+                <span>Frais de traitement :</span>
+                <span>Gratuit</span>
+            </div>
+            <div class="total-row final">
+                <span>Total :</span>
+                <span>${cartData.total.toFixed(2)} €</span>
+            </div>
+        `;
 
-        // Formatage de la date d'expiration
-        document.getElementById('expiryDate').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 2) {
-                value = value.substring(0, 2) + '/' + value.substring(2, 4);
-            }
-            e.target.value = value;
-        });
+        // 5. Mettre à jour le bouton de paiement avec le total
+        payButton.textContent = `Payer maintenant - ${cartData.total.toFixed(2)} €`;
+        payButton.disabled = false;
+    }
 
-        // Validation CVV
-        document.getElementById('cvv').addEventListener('input', function(e) {
-            e.target.value = e.target.value.replace(/\D/g, '');
-        });
-
-        // Gestion du formulaire
-        document.getElementById('paymentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+    // Gestion de la soumission du formulaire
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const button = document.querySelector('.pay-button');
+        const loading = document.querySelector('.loading');
+        const success = document.querySelector('.success-message');
+        
+        button.style.display = 'none';
+        loading.style.display = 'block';
+        
+        setTimeout(() => {
+            loading.style.display = 'none';
+            success.style.display = 'block';
             
-            const button = document.querySelector('.pay-button');
-            const loading = document.querySelector('.loading');
-            const success = document.querySelector('.success-message');
+            // IMPORTANT : Vider le panier après le paiement pour éviter la réutilisation
+            localStorage.removeItem('cart');
             
-            // Afficher le loading
-            button.style.display = 'none';
-            loading.style.display = 'block';
-            
-            // Simuler le traitement du paiement
+            // Rediriger vers la page d'accueil ou de confirmation après un délai
             setTimeout(() => {
-                loading.style.display = 'none';
-                success.style.display = 'block';
-                
-                // Réinitialiser après 5 secondes pour la démo
-                setTimeout(() => {
-                    success.style.display = 'none';
-                    button.style.display = 'block';
-                }, 5000);
+                window.location.href = "index.html"; 
             }, 3000);
-        });
+        }, 2000);
+    });
 
-        // Animation d'entrée
-        window.addEventListener('load', function() {
-            document.querySelector('.payment-form').style.opacity = '0';
-            document.querySelector('.order-summary').style.opacity = '0';
-            document.querySelector('.payment-form').style.transform = 'translateY(30px)';
-            document.querySelector('.order-summary').style.transform = 'translateY(30px)';
+    // Appeler la fonction de mise à jour au chargement de la page
+    window.addEventListener('load', function() {
+        // ... tes animations d'entrée existantes
+        document.querySelector('.payment-form').style.opacity = '0';
+        document.querySelector('.order-summary').style.opacity = '0';
+        document.querySelector('.payment-form').style.transform = 'translateY(30px)';
+        document.querySelector('.order-summary').style.transform = 'translateY(30px)';
+        
+        setTimeout(() => {
+            document.querySelector('.payment-form').style.transition = 'all 0.6s ease';
+            document.querySelector('.order-summary').style.transition = 'all 0.6s ease';
+            document.querySelector('.payment-form').style.opacity = '1';
+            document.querySelector('.order-summary').style.opacity = '1';
+            document.querySelector('.payment-form').style.transform = 'translateY(0)';
+            document.querySelector('.order-summary').style.transform = 'translateY(0)';
             
-            setTimeout(() => {
-                document.querySelector('.payment-form').style.transition = 'all 0.6s ease';
-                document.querySelector('.order-summary').style.transition = 'all 0.6s ease';
-                document.querySelector('.payment-form').style.opacity = '1';
-                document.querySelector('.order-summary').style.opacity = '1';
-                document.querySelector('.payment-form').style.transform = 'translateY(0)';
-                document.querySelector('.order-summary').style.transform = 'translateY(0)';
-                
-                // Charger les données du panier
-                loadCartFromSystem();
-            }, 100);
-        });
-    </script>
+            // On appelle la fonction de mise à jour ici pour afficher le récapitulatif
+            updateOrderSummary();
+        }, 100);
+    });
+</script>
 </body>
 </html>
