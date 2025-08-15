@@ -325,111 +325,111 @@
         <p>© 2025 PliPli'Sport. Tous droits réservés. | Contact: PliPli.45.1@gmail.com</p>
     </footer>
 
-    <script>
-        let cart = [];
-        
-        function addToCart(productName, price) {
-            cart.push({
-                name: productName,
-                price: price
-            });
-            
-            updateCartCount();
-            showNotification(`${productName} ajouté au panier !`);
-        }
-        
-        function updateCartCount() {
-            const cartCount = document.getElementById('cartCount');
-            cartCount.textContent = cart.length;
-        }
-        
-     function showCart() {
-    const modal = document.getElementById('cartModal');
-    const cartItemsContainer = document.getElementById('cartItems');
-    cartItemsContainer.innerHTML = '';
-    let total = 0;
+   <script>
+    // Charger le panier depuis localStorage ou initialiser vide
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    if (cart.length === 0) {
-        cartItemsContainer.innerHTML = '<p>Votre panier est vide.</p>';
-        document.getElementById('cartTotal').textContent = '0.00';
-    } else {
-        cart.forEach((item, index) => {
-            total += item.price;
-            cartItemsContainer.innerHTML += `
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px; align-items:center;">
-                    <span>${item.name} - ${item.price.toFixed(2)} €</span>
-                    <button onclick="removeFromCart(${index})" style="background:#e74c3c; border:none; border-radius:5px; color:#fff; cursor:pointer;">Supprimer</button>
-                </div>
-            `;
-        });
-        document.getElementById('cartTotal').textContent = total.toFixed(2);
+    // Sauvegarder le panier dans localStorage
+    function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
     }
 
-    modal.style.display = 'block';
-}
+    function addToCart(productName, price) {
+        cart.push({ name: productName, price: price });
+        saveCart();
+        updateCartCount();
+        showNotification(`${productName} ajouté au panier !`);
+    }
 
-function closeCart() {
-    document.getElementById('cartModal').style.display = 'none';
-}
+    function updateCartCount() {
+        const cartCount = document.getElementById('cartCount');
+        cartCount.textContent = cart.length;
+    }
 
-function removeFromCart(index) {
-    cart.splice(index, 1);
-    updateCartCount();
-    showCart();
-}
+    function showCart() {
+        const modal = document.getElementById('cartModal');
+        const cartItemsContainer = document.getElementById('cartItems');
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
 
-function checkout() {
-    alert("Passage au paiement à implémenter.");
-    // Ici tu pourras intégrer Stripe ou PayPal plus tard
-}
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p>Votre panier est vide.</p>';
+            document.getElementById('cartTotal').textContent = '0.00';
+        } else {
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartItemsContainer.innerHTML += `
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; align-items:center;">
+                        <span>${item.name} - ${item.price.toFixed(2)} €</span>
+                        <button onclick="removeFromCart(${index})" style="background:#e74c3c; border:none; border-radius:5px; color:#fff; cursor:pointer;">Supprimer</button>
+                    </div>
+                `;
+            });
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
+        }
 
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: linear-gradient(45deg, #ff6b35, #f7931e);
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 10px;
-                font-weight: bold;
-                z-index: 1000;
-                animation: slideIn 0.3s ease;
-            `;
-            
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // Bloquer le scroll
+    }
+
+    function closeCart() {
+        document.getElementById('cartModal').style.display = 'none';
+        document.body.style.overflow = 'auto'; // Réactiver le scroll
+    }
+
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        saveCart();
+        updateCartCount();
+        showCart();
+    }
+
+    function checkout() {
+        alert("Passage au paiement à implémenter.");
+        // Intégration Stripe / PayPal à venir
+    }
+
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 1000;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
             setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    document.body.removeChild(notification);
-                }, 300);
-            }, 2000);
+                document.body.removeChild(notification);
+            }, 300);
+        }, 2000);
+    }
+
+    // Animation CSS pour les notifications
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
         
-        // Animation CSS pour les notifications
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    `;
+    document.head.appendChild(style);
 
-<div id="cartModal" style="display:none; position:fixed; top:0; right:0; width:350px; height:100%; background:#222; color:#fff; padding:20px; overflow-y:auto; box-shadow: -2px 0 10px rgba(0,0,0,0.7); z-index:10000;">
-    <h2>Votre panier <button onclick="closeCart()" style="float:right; background:none; border:none; color:#fff; font-size:20px; cursor:pointer;">×</button></h2>
-    <div id="cartItems"></div>
-    <div style="margin-top:20px; font-weight:bold;">Total : <span id="cartTotal">0</span> €</div>
-    <button onclick="checkout()" style="margin-top:20px; width:100%; padding:10px; background:#ff6b35; border:none; border-radius:10px; color:#fff; font-weight:bold; cursor:pointer;">Passer au paiement</button>
-</div>
-
-</body></html>
+    // Initialiser le compteur panier au chargement
+    updateCartCount();
+</script>
