@@ -474,109 +474,125 @@
         <p>© 2025 PliPli'Sport. Tous droits réservés. | Contact: PliPli.45.1@gmail.com</p>
     </footer>
 
-    <script>
-        // Initialiser le panier vide (sans localStorage pour éviter les erreurs)
-        let cart = [];
+  <script>
+    // Initialiser le panier en le chargeant depuis le localStorage.
+    // Si la clé 'cart' n'existe pas, on initialise un tableau vide.
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-        function addToCart(productName, price) {
-            cart.push({ name: productName, price: price });
-            updateCartCount();
-            showNotification(`${productName} ajouté au panier !`);
-        }
+    // Fonction pour sauvegarder le panier dans le localStorage.
+    function saveCartToLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
 
-        function updateCartCount() {
-            const cartCount = document.getElementById('cartCount');
-            cartCount.textContent = cart.length;
-        }
-
-        function showCart() {
-            const modal = document.getElementById('cartModal');
-            const cartItemsContainer = document.getElementById('cartItems');
-            cartItemsContainer.innerHTML = '';
-            let total = 0;
-
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<div class="empty-cart">Votre panier est vide.</div>';
-                document.getElementById('cartTotal').textContent = '0.00';
-            } else {
-                cart.forEach((item, index) => {
-                    total += item.price;
-                    cartItemsContainer.innerHTML += `
-                        <div class="cart-item">
-                            <span>${item.name} - ${item.price.toFixed(2)} €</span>
-                            <button class="remove-btn" onclick="removeFromCart(${index})">Supprimer</button>
-                        </div>
-                    `;
-                });
-                document.getElementById('cartTotal').textContent = total.toFixed(2);
-            }
-
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeCart() {
-            const modal = document.getElementById('cartModal');
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            updateCartCount();
-            showCart(); // Rafraîchir l'affichage du panier
-        }
-
-        function checkout() {
-            if (cart.length === 0) {
-                showNotification("Votre panier est vide !");
-                return;
-            }
-            showNotification("Redirection vers le paiement...");
-            // Redirection vers la page de paiement
-            setTimeout(() => {
-                window.location.href = "paiement.html";
-            }, 1500);
-        }
-
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.style.cssText = `
-                position: fixed;
-                top: 100px;
-                right: 20px;
-                background: linear-gradient(45deg, #ff6b35, #f7931e);
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 10px;
-                font-weight: bold;
-                z-index: 1001;
-                animation: slideIn 0.3s ease;
-            `;
-            
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.animation = 'slideOut 0.3s ease';
-                setTimeout(() => {
-                    if (document.body.contains(notification)) {
-                        document.body.removeChild(notification);
-                    }
-                }, 300);
-            }, 2000);
-        }
-
-        // Fermer la modale en cliquant à l'extérieur
-        window.onclick = function(event) {
-            const modal = document.getElementById('cartModal');
-            if (event.target === modal) {
-                closeCart();
-            }
-        }
-
-        // Initialiser le compteur panier au chargement
+    // Ajout d'un produit au panier
+    function addToCart(productName, price) {
+        cart.push({ name: productName, price: price });
+        saveCartToLocalStorage(); // Sauvegarde le panier après chaque ajout
         updateCartCount();
-    </script>
+        showNotification(`${productName} ajouté au panier !`);
+    }
+
+    // Mise à jour du nombre d'articles dans le panier
+    function updateCartCount() {
+        const cartCount = document.getElementById('cartCount');
+        cartCount.textContent = cart.length;
+    }
+
+    // Affichage de la modale du panier
+    function showCart() {
+        const modal = document.getElementById('cartModal');
+        const cartItemsContainer = document.getElementById('cartItems');
+        cartItemsContainer.innerHTML = '';
+        let total = 0;
+
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<div class="empty-cart">Votre panier est vide.</div>';
+            document.getElementById('cartTotal').textContent = '0.00';
+        } else {
+            cart.forEach((item, index) => {
+                total += item.price;
+                cartItemsContainer.innerHTML += `
+                    <div class="cart-item">
+                        <span>${item.name} - ${item.price.toFixed(2)} €</span>
+                        <button class="remove-btn" onclick="removeFromCart(${index})">Supprimer</button>
+                    </div>
+                `;
+            });
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
+        }
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    // Fermeture de la modale du panier
+    function closeCart() {
+        const modal = document.getElementById('cartModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+
+    // Suppression d'un article du panier
+    function removeFromCart(index) {
+        cart.splice(index, 1);
+        saveCartToLocalStorage(); // Sauvegarde le panier après chaque suppression
+        updateCartCount();
+        showCart(); // Rafraîchir l'affichage du panier
+    }
+
+    // Redirection vers la page de paiement
+    function checkout() {
+        if (cart.length === 0) {
+            showNotification("Votre panier est vide !");
+            return;
+        }
+        
+        saveCartToLocalStorage(); // C'est l'étape cruciale : on sauvegarde avant de rediriger
+        showNotification("Redirection vers le paiement...");
+        
+        setTimeout(() => {
+            window.location.href = "paiement.html";
+        }, 1500);
+    }
+
+    // Fonction d'affichage des notifications
+    function showNotification(message) {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: bold;
+            z-index: 1001;
+            animation: slideIn 0.3s ease;
+        `;
+        
+        notification.textContent = message;
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => {
+                if (document.body.contains(notification)) {
+                    document.body.removeChild(notification);
+                }
+            }, 300);
+        }, 2000);
+    }
+
+    // Fermer la modale en cliquant à l'extérieur
+    window.onclick = function(event) {
+        const modal = document.getElementById('cartModal');
+        if (event.target === modal) {
+            closeCart();
+        }
+    }
+
+    // Initialiser le compteur panier au chargement de la page
+    updateCartCount();
+</script>
 </body>
 </html>
