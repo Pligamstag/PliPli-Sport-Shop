@@ -405,6 +405,8 @@
         </div>
     </div>
 
+<script src="https://www.paypal.com/sdk/js?client-id=AWl6q22kCGWM0JMiM-BpAD0QckU6EoBuwMwsxL2UR1r-YiCTxdHc1lbLwe7k_yZs8VUN-ZiOQ-fPM_KF&currency=EUR"></script>
+
 <script>
     // Objet pour stocker les données du panier et les totaux
     let cartData = {
@@ -412,21 +414,16 @@
         subtotal: 0,
         tax: 0,
         total: 0,
-        taxRate: 0.20 // 20% TVA
+        taxRate: 0.20
     };
 
-    // Fonction pour mettre à jour le récapitulatif
     function updateOrderSummary() {
         const orderItemsContainer = document.getElementById('orderItems');
         const orderTotalContainer = document.getElementById('orderTotal');
         const payButton = document.getElementById('payButton');
 
         const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-            cartData.items = JSON.parse(savedCart);
-        } else {
-            cartData.items = [];
-        }
+        cartData.items = savedCart ? JSON.parse(savedCart) : [];
 
         if (cartData.items.length === 0) {
             orderItemsContainer.innerHTML = '<p>Votre panier est vide.</p>';
@@ -462,10 +459,6 @@
                 <span>TVA (${(cartData.taxRate * 100)}%) :</span>
                 <span>${cartData.tax.toFixed(2)} €</span>
             </div>
-            <div class="total-row">
-                <span>Frais de traitement :</span>
-                <span>Gratuit</span>
-            </div>
             <div class="total-row final">
                 <span>Total :</span>
                 <span>${cartData.total.toFixed(2)} €</span>
@@ -476,7 +469,6 @@
         payButton.disabled = false;
     }
 
-    // Fonction pour gérer le changement de méthode de paiement
     function changePaymentMethod(method) {
         document.querySelectorAll('.payment-method').forEach(item => {
             item.classList.remove('active');
@@ -485,22 +477,15 @@
         document.querySelector(`.payment-method[data-method="${method}"]`).classList.add('active');
 
         const cardDetails = document.getElementById('cardDetails');
-        if (method === 'card') {
-            cardDetails.style.display = 'block';
-        } else {
-            cardDetails.style.display = 'none';
-        }
+        cardDetails.style.display = method === 'card' ? 'block' : 'none';
     }
 
-    // Ajout d'écouteurs d'événements aux options de paiement
     document.querySelectorAll('.payment-method').forEach(methodDiv => {
         methodDiv.addEventListener('click', () => {
-            const method = methodDiv.getAttribute('data-method');
-            changePaymentMethod(method);
+            changePaymentMethod(methodDiv.getAttribute('data-method'));
         });
     });
 
-    // Gestion de la soumission du formulaire
     document.getElementById('paymentForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -512,39 +497,47 @@
         payButton.style.display = 'none';
         loading.style.display = 'block';
 
-        // --- DÉBUT DE LA LOGIQUE DE PAIEMENT SÉPARÉE ---
+        // --- DÉBUT DE LA LOGIQUE DE PAIEMENT ---
         if (selectedMethod === 'card') {
             console.log("Paiement par carte en cours...");
-            // Dans un vrai site, ici tu aurais une intégration de l'API Stripe
-            // ou d'un autre service de paiement par carte.
-        } else if (selectedMethod === 'paypal') {
-            const clientId = 'ASz4KkXyvIHtXdydWVz9xiRrZCyr4izsQKxiPTFoMFP9TwHmSKPQUUqHZaXX803cO6b3ab060zZIGBbU';
-            console.log(`Paiement via PayPal en cours... (Utilisation du Client ID : ${clientId})`);
-            // Pour une vraie intégration, tu aurais besoin d'une balise <script>
-            // de l'API PayPal et d'appeler ses fonctions ici.
-        } else if (selectedMethod === 'apple' || selectedMethod === 'google') {
+        } 
+        else if (selectedMethod === 'paypal') {
+            const payButtonContainer = document.getElementById('paypal-button-container');
+            payButtonContainer.innerHTML = ''; // Vide le container
+            
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    const total = cartData.total.toFixed(2);
+                    return actions.order.create({
+                        purchase_units: [{ amount: { value: total } }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Paiement réussi par ' + details.payer.name.given_name + ' !');
+                        localStorage.removeItem('cart');
+                        window.location.href = "index.html";
+                    });
+                },
+                onError: function(err) {
+                    alert('Erreur lors du paiement : ' + err);
+                }
+            }).render('#paypal-button-container');
+        } 
+        else if (selectedMethod === 'apple' || selectedMethod === 'google') {
             console.log(`Paiement via ${selectedMethod} Pay en cours...`);
-            // Même chose pour Apple Pay et Google Pay, il faudrait appeler leurs API.
         }
-        // --- FIN DE LA LOGIQUE DE PAIEMENT SÉPARÉE ---
+        // --- FIN LOGIQUE PAIEMENT ---
 
-        // Simulation de la réponse après 2 secondes (valable pour toutes les méthodes)
+        // Simulation réponse pour toutes les méthodes
         setTimeout(() => {
             loading.style.display = 'none';
             success.style.display = 'block';
-            console.log("Paiement simulé réussi !");
-
-            // IMPORTANT : Vider le panier après le paiement pour éviter la réutilisation
             localStorage.removeItem('cart');
-
-            // Rediriger vers la page d'accueil ou de confirmation après un délai
-            setTimeout(() => {
-                window.location.href = "index.html"; 
-            }, 3000);
+            setTimeout(() => { window.location.href = "index.html"; }, 3000);
         }, 2000);
     });
 
-    // Appeler la fonction de mise à jour au chargement de la page
     window.addEventListener('load', function() {
         document.querySelector('.payment-form').style.opacity = '0';
         document.querySelector('.order-summary').style.opacity = '0';
@@ -563,5 +556,6 @@
         }, 100);
     });
 </script>
+
 </body>
 </html>
