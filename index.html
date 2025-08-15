@@ -533,7 +533,10 @@
                 return;
             }
             showNotification("Redirection vers le paiement...");
-            // Ici vous pouvez implémenter l'intégration avec Stripe, PayPal, etc.
+            // Redirection vers la page de paiement
+            setTimeout(() => {
+                window.location.href = "paiement.html";
+            }, 1500);
         }
 
         function showNotification(message) {
