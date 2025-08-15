@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PliPli'Sport - Boutique Officielle</title>
+    <title>Paiement - PliPli'Sport</title>
     <style>
-        /* CSS de la boutique (inchangé) */
+        /* Styles généraux */
         * {
             margin: 0;
             padding: 0;
@@ -17,465 +17,355 @@
             background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
             color: #fff;
             min-height: 100vh;
-        }
-
-        .header {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav {
-            max-width: 1200px;
-            margin: 0 auto;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 0 2rem;
+            padding: 2rem;
+            flex-direction: column;
         }
 
-        .logo {
-            font-size: 2rem;
-            font-weight: bold;
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
+        .payment-container {
             display: flex;
-            list-style: none;
             gap: 2rem;
-        }
-
-        .nav-links a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #ff6b35;
-        }
-
-        .cart {
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            text-decoration: none;
-            color: #fff;
-            font-weight: bold;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-
-        .cart:hover {
-            transform: translateY(-2px);
-        }
-
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: radial-gradient(circle at center, rgba(255, 107, 53, 0.1) 0%, transparent 70%);
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #f7931e;
-            font-style: italic;
-        }
-
-        .products {
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 4rem 2rem;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
-        .section-title {
+        .payment-form, .order-summary {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            flex: 1;
+            min-width: 300px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h1 {
             font-size: 2.5rem;
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        h2 {
             color: #fff;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
         }
 
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+        .payment-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ccc;
         }
 
-        .product-card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 107, 53, 0.2);
+        .payment-form input, .payment-form select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
         }
 
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(255, 107, 53, 0.3);
+        .payment-form input:focus, .payment-form select:focus {
+            outline: none;
             border-color: #ff6b35;
         }
 
-        .product-image {
+        .card-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .card-details .card-number {
+            grid-column: 1 / 3;
+        }
+
+        .pay-button {
             width: 100%;
-            height: 250px;
-            background: #f0f0f0;
-            border-radius: 15px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-            color: #fff;
-        }
-
-        .product-info p {
-            color: #ccc;
-            margin-bottom: 1rem;
-            line-height: 1.5;
-        }
-
-        .product-price {
-            font-size: 1.5rem;
+            padding: 1rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            color: #f7931e;
-            margin-bottom: 1rem;
-        }
-
-        .add-to-cart {
+            border: none;
+            border-radius: 25px;
             background: linear-gradient(45deg, #ff6b35, #f7931e);
             color: #fff;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 25px;
-            font-size: 1rem;
-            font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            width: 100%;
         }
 
-        .add-to-cart:hover {
+        .pay-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(255, 107, 53, 0.4);
         }
+        
+        .pay-button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
 
-        .footer {
-            background: rgba(0, 0, 0, 0.9);
-            padding: 2rem 0;
+        .order-summary {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .order-summary h2 {
             text-align: center;
-            margin-top: 4rem;
         }
 
-        .footer p {
-            color: #ccc;
-        }
-
-        .cart-count {
-            background: #e74c3c;
-            color: #fff;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 0.8rem;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 0.5rem;
-        }
-
-        /* Styles pour la modale du panier */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 600px;
-            position: relative;
-            border: 2px solid rgba(255, 107, 53, 0.3);
-            animation: slideInModal 0.3s ease;
-        }
-
-        @keyframes slideInModal {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .close {
-            color: #ff6b35;
-            float: right;
-            font-size: 2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-
-        .close:hover {
-            color: #f7931e;
-        }
-
-        .modal h2 {
-            color: #fff;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .cart-items {
-            max-height: 300px;
-            overflow-y: auto;
+        .order-items {
+            flex-grow: 1;
             margin-bottom: 1.5rem;
         }
 
-        .cart-item {
+        .order-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .cart-item span {
-            color: #fff;
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .item-info p {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .item-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #f7931e;
+        }
+
+        .order-total {
+            margin-top: auto; /* Pousse les totaux vers le bas */
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .total-row span {
             font-size: 1.1rem;
         }
 
-        .remove-btn {
-            background: #e74c3c;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .total-row.final {
             font-weight: bold;
-        }
-
-        .remove-btn:hover {
-            background: #c0392b;
-            transform: scale(1.05);
-        }
-
-        .cart-total {
-            text-align: center;
-            font-size: 1.5rem;
-            color: #f7931e;
-            font-weight: bold;
-            margin-bottom: 1.5rem;
-            padding: 1rem;
-            background: rgba(247, 147, 30, 0.1);
-            border-radius: 10px;
-        }
-
-        .checkout-btn {
-            background: linear-gradient(45deg, #ff6b35, #f7931e);
-            color: #fff;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 25px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-
-        .checkout-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(255, 107, 53, 0.4);
-        }
-
-        .empty-cart {
-            text-align: center;
-            color: #ccc;
-            font-size: 1.2rem;
-            padding: 2rem;
-        }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
+            font-size: 1.4rem;
+            color: #ff6b35;
+            margin-top: 1rem;
         }
         
-        @keyframes slideOut {
-            from { transform: translateX(0); opacity: 1; }
-            to { transform: translateX(100%); opacity: 0; }
+        .loading {
+            text-align: center;
+            color: #fff;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .success-message {
+            text-align: center;
+            color: #2ecc71;
+            margin-top: 20px;
+            font-size: 1.5rem;
+            display: none;
+            animation: bounceIn 0.8s ease-in-out;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(1); }
         }
 
         @media (max-width: 768px) {
-            .nav {
+            .payment-container {
                 flex-direction: column;
-                gap: 1rem;
             }
-
-            .nav-links {
-                gap: 1rem;
-            }
-
-            .hero h1 {
-                font-size: 2rem;
-            }
-
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-content {
-                width: 95%;
-                margin: 10% auto;
-                padding: 1.5rem;
+            .payment-form, .order-summary {
+                flex: none;
+                width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">PliPli'Sport</div>
-            <ul class="nav-links">
-                <li><a href="#accueil">Accueil</a></li>
-                <li><a href="#produits">Produits</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="cart" onclick="showCart()">
-                Panier <span class="cart-count" id="cartCount">0</span>
-            </div>
-        </nav>
-    </header>
 
-    <section class="hero" id="accueil">
-        <h1>PliPli'Sport</h1>
-        <p>Peu importe ton niveau, seul le jeu compte !</p>
-    </section>
+    <h1>Paiement Sécurisé</h1>
 
-    <section class="products" id="produits">
-        <h2 class="section-title">Nos Produits</h2>
-        <div class="product-grid">
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="IMG_0649.PNG" alt="T-shirt PliPli'Sport" style="object-fit:cover; width:100%; height:250px;">
-                </div>
-                <div class="product-info">
-                    <h3>T-shirts PliPli'Sport</h3>
-                    <p>T-shirt confortable avec le logo emblématique PliPli'Sport. Parfait pour le sport ou le quotidien.</p>
-                    <div class="product-price">21,59 €</div>
-                    <button class="add-to-cart" onclick="addToCart({ name: 'T-shirt PliPli\'Sport', price: 21.59, description: 'T-shirt confortable avec le logo emblématique.' })">Ajouter au panier</button>
-                </div>
-            </div>
+    <div class="payment-container">
+        <div class="payment-form">
+            <h2>Informations de paiement</h2>
+            <form id="paymentForm">
+                <label for="card-name">Nom sur la carte</label>
+                <input type="text" id="card-name" placeholder="Nom Prénom" required>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="IMG_0656.PNG" alt="Casquette PliPli'Sport" style="object-fit:cover; width:100%; height:250px;">
+                <div class="card-details">
+                    <div class="card-number">
+                        <label for="card-number">Numéro de carte</label>
+                        <input type="text" id="card-number" placeholder="XXXX XXXX XXXX XXXX" required>
+                    </div>
+                    <div>
+                        <label for="expiry-date">Date d'expiration</label>
+                        <input type="text" id="expiry-date" placeholder="MM/AA" required>
+                    </div>
+                    <div>
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" placeholder="XXX" required>
+                    </div>
                 </div>
-                <div class="product-info">
-                    <h3>Casquettes PliPli'Sport</h3>
-                    <p>Casquette stylée avec broderie rouge PliPli'Sport. Protection solaire et style garantis.</p>
-                    <div class="product-price">19,79 €</div>
-                    <button class="add-to-cart" onclick="addToCart({ name: 'Casquette PliPli\'Sport', price: 19.79, description: 'Casquette stylée avec broderie rouge.' })">Ajouter au panier</button>
-                </div>
-            </div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="IMG_0655.PNG" alt="Gourde Isotherme PliPli'Sport" style="object-fit:cover; width:100%; height:250px;">
-                </div>
-                <div class="product-info">
-                    <h3>Gourde Isotherme PliPli'Sport</h3>
-                    <p>Gourde isotherme en acier inoxydable. Garde vos boissons au frais pendant 24h.</p>
-                    <div class="product-price">23,39 €</div>
-                    <button class="add-to-cart" onclick="addToCart({ name: 'Gourde Isotherme PliPli\'Sport', price: 23.39, description: 'Gourde isotherme en acier inoxydable.' })">Ajouter au panier</button>
-                </div>
-            </div>
+                <div class="loading">Traitement en cours...</div>
+                <div class="success-message">Paiement réussi ! 🎉</div>
 
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="IMG_0653.PNG" alt="Sticker PliPli'Sport" style="object-fit:cover; width:100%; height:250px;">
-                </div>
-                <div class="product-info">
-                    <h3>Sticker PliPli'Sport</h3>
-                    <p>Sticker résistant aux intempéries. Parfait pour personnaliser votre matériel.</p>
-                    <div class="product-price">4,19 €</div>
-                    <button class="add-to-cart" onclick="addToCart({ name: 'Sticker PliPli\'Sport', price: 4.19, description: 'Sticker résistant aux intempéries.' })">Ajouter au panier</button>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image">
-                    <img src="IMG_0654.PNG" alt="Verre PliPli'Sport" style="object-fit:cover; width:100%; height:250px;">
-                </div>
-                <div class="product-info">
-                    <h3>Verre PliPli'Sport</h3>
-                    <p>Verre à whisky en cristal avec logo gravé. Pour célébrer vos victoires avec style.</p>
-                    <div class="product-price">12,59 €</div>
-                    <button class="add-to-cart" onclick="addToCart({ name: 'Verre PliPli\'Sport', price: 12.59, description: 'Verre à whisky en cristal avec logo gravé.' })">Ajouter au panier</button>
-                </div>
-            </div>
+                <button type="submit" class="pay-button" id="payButton">Payer maintenant</button>
+            </form>
         </div>
-    </section>
 
-    <div id="cartModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeCart()">&times;</span>
-            <h2>Mon Panier</h2>
-            <div id="cartItems" class="cart-items"></div>
-            <div class="cart-total">
-                Total: <span id="cartTotal">0.00</span> €
-            </div>
-            <button class="checkout-btn" onclick="saveCartAndCheckout()">Procéder au paiement</button>
+        <div class="order-summary">
+            <h2>Récapitulatif de la commande</h2>
+            <div id="orderItems" class="order-items">
+                </div>
+            <div id="orderTotal" class="order-total">
+                </div>
         </div>
     </div>
 
-    <footer class="footer" id="contact">
-        <p>© 2025 PliPli'Sport. Tous droits réservés. | Contact: PliPli.45.1@gmail.com</p>
-    </footer>
+    <script>
+        // Objet pour stocker les données du panier et les totaux
+        let cartData = {
+            items: [],
+            subtotal: 0,
+            tax: 0,
+            total: 0,
+            taxRate: 0.20 // 20% de TVA en France
+        };
 
-    <button class="add-to-cart" onclick="addToCart('T-shirt PliPli\'Sport', 21.59)">Ajouter au panier</button>
+        // Fonction pour mettre à jour le récapitulatif de la commande
+        function updateOrderSummary() {
+            const orderItemsContainer = document.getElementById('orderItems');
+            const orderTotalContainer = document.getElementById('orderTotal');
+            const payButton = document.getElementById('payButton');
+
+            // 1. Récupérer le panier depuis le localStorage
+            const savedCart = localStorage.getItem('cart');
+            if (savedCart) {
+                cartData.items = JSON.parse(savedCart);
+            }
+
+            // Si le panier est vide, affiche un message
+            if (cartData.items.length === 0) {
+                orderItemsContainer.innerHTML = '<p>Votre panier est vide.</p>';
+                payButton.textContent = 'Panier vide';
+                payButton.disabled = true;
+                orderTotalContainer.innerHTML = '';
+                return;
+            }
+
+            // 2. Calculer le sous-total, la TVA et le total
+            cartData.subtotal = cartData.items.reduce((sum, item) => sum + item.price, 0);
+            cartData.tax = cartData.subtotal * cartData.taxRate;
+            cartData.total = cartData.subtotal + cartData.tax;
+
+            // 3. Afficher les articles du panier dans le récapitulatif
+            orderItemsContainer.innerHTML = '';
+            cartData.items.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'order-item';
+                itemElement.innerHTML = `
+                    <div class="item-info">
+                        <h3>${item.name}</h3>
+                        <p>Quantité : 1</p>
+                    </div>
+                    <div class="item-price">${item.price.toFixed(2)} €</div>
+                `;
+                orderItemsContainer.appendChild(itemElement);
+            });
+
+            // 4. Afficher le total et les détails dans le récapitulatif
+            orderTotalContainer.innerHTML = `
+                <div class="total-row">
+                    <span>Sous-total :</span>
+                    <span>${cartData.subtotal.toFixed(2)} €</span>
+                </div>
+                <div class="total-row">
+                    <span>TVA (${(cartData.taxRate * 100)}%) :</span>
+                    <span>${cartData.tax.toFixed(2)} €</span>
+                </div>
+                <div class="total-row">
+                    <span>Frais de traitement :</span>
+                    <span>Gratuit</span>
+                </div>
+                <div class="total-row final">
+                    <span>Total :</span>
+                    <span>${cartData.total.toFixed(2)} €</span>
+                </div>
+            `;
+
+            // 5. Mettre à jour le bouton de paiement avec le total
+            payButton.textContent = `Payer maintenant - ${cartData.total.toFixed(2)} €`;
+            payButton.disabled = false;
+        }
+
+        // Gestion de la soumission du formulaire
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const button = document.querySelector('.pay-button');
+            const loading = document.querySelector('.loading');
+            const success = document.querySelector('.success-message');
+            
+            button.style.display = 'none';
+            loading.style.display = 'block';
+            
+            setTimeout(() => {
+                loading.style.display = 'none';
+                success.style.display = 'block';
+                
+                // IMPORTANT : Vider le panier après le paiement
+                localStorage.removeItem('cart');
+                
+                // Rediriger vers la page d'accueil ou de confirmation après un délai
+                setTimeout(() => {
+                    window.location.href = "index.html"; 
+                }, 3000);
+            }, 2000);
+        });
+
+        // Appeler la fonction de mise à jour au chargement de la page
+        window.addEventListener('load', updateOrderSummary);
+    </script>
 </body>
 </html>
